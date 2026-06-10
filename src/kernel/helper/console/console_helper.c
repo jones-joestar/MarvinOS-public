@@ -15,6 +15,7 @@ static uint32_t bg_color;
 static char int_buffer[21];
 
 void console_init(uint32_t fg, uint32_t bg) {
+    init_shadow_buffer();
     serial_init();
     fg_color = fg;
     bg_color = bg;

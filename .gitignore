@@ -69,3 +69,5 @@ rootfs/bin/
 DOOM_SOUND_DEBUG.txt
 hardware_compatibility_differences.txt
 UPGRADE_TO_HARDWARE.md
+
+*.wad

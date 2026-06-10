@@ -46,18 +46,18 @@ void kernel_main(BootInfo *info) {
 
     init_paging();
     serial_write("Paging: active.\n");
-
+    
     // frambuffer is now mapped to virtual address space
     set_gop_virtual(bootInfo);
     set_memmap(bootInfo);
-
+    
     // init Manic
     panic_init(bootInfo);
 
+    init_kalloc();
+
     console_init(0x0000FF00, 0x00000000);
     clear_screen(0x00000000);
-
-    init_kalloc();
 
     gdt_init();
     idt_init();
