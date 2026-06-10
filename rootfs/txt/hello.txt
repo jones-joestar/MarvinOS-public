@@ -1,0 +1,5 @@
+#### start txt file ####
+FAT works lol
+does \n work?
+T\nE"\n"S'\n'T
+#### end txt file  ####

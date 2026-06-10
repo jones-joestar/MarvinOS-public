@@ -1,0 +1,71 @@
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+*.bin
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# debug information files
+*.dwo
+
+#
+build/
+*.efi
+.vscode/c_cpp_properties.json
+.vscode/settings.json
+
+# generated at build time
+src/kernel/helper/loader/shell_bin.h
+rootfs/bin/
+
+.idea/
+DOOM_SOUND_DEBUG.txt
+hardware_compatibility_differences.txt
+UPGRADE_TO_HARDWARE.md
