@@ -4,7 +4,7 @@ A custom 64-bit operating system built from scratch, capable of running Doom (19
 
 ## Overview
 
-MarvinOS is a monolithic kernel operating system targeting x86-64 hardware with UEFI boot support. It implements a custom UEFI bootloader, a higher-half kernel, process isolation via paging, a FAT filesystem driver, PS/2 keyboard input, sound output (Sound Blaster 16 / PC speaker fallback), and a port of [doomgeneric](https://github.com/ozkl/doomgeneric) as its flagship application.
+MarvinOS is a monolithic kernel operating system targeting x86-64 hardware with UEFI boot support. It implements a custom UEFI bootloader, a higher-half kernel, process isolation via paging, a FAT filesystem driver, PS/2 keyboard input, sound output (Sound Blaster 16 / PC speaker fallback), and a port of [doomgeneric](https://github.com/ozkl/doomgeneric) as its flagship application. To play doom, you need a WAD file containing the game data. Put the file into the (`rootfs/`) directory.
 
 **Key components:**
 - UEFI bootloader (`src/bootloader/`) — sets up GOP framebuffer, loads kernel at `0x200000`, exits boot services
@@ -17,12 +17,12 @@ MarvinOS is a monolithic kernel operating system targeting x86-64 hardware with 
 ### Native build (Arch Linux / x86-64 Linux)
 
 ```
-gcc  nasm  binutils  gnu-efi  mtools  xxd  qemu-system-x86  gdb
+gcc  nasm  binutils  gnu-efi  mtools  xxd  qemu-system-x86  gdb xorriso
 ```
 
 On Arch Linux:
 ```sh
-sudo pacman -S gcc nasm binutils gnu-efi mtools qemu-system-x86 gdb
+sudo pacman -S gcc nasm binutils gnu-efi mtools qemu-system-x86 gdb xorriso
 # `xxd` is not its own package: it ships with `vim`/`gvim` (likely already installed)
 # or `tinyxxd`. Note that `tinyxxd` conflicts with `vim` (both provide the xxd binary).
 ```
