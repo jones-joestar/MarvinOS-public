@@ -55,8 +55,8 @@ void schedule(pt_regs_t *regs) {
             push(&ready_queue, running_process);
     }
 
-    process_t *next_process = round_robin_schedule();
-    //process_t *next_process = BOGO_schedule();
+    //process_t *next_process = round_robin_schedule();
+    process_t *next_process = BOGO_schedule();
 
     if (!next_process) {
         // if no process can run, idle (process 0)
