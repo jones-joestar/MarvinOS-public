@@ -16,6 +16,7 @@ static inline void fpu_load(const uint8_t *fpu_state);
 // Saves the current process's state and jumps to the new process
 // May only be called if interrupts are disabled
 void switch_context(process_t* process) {
+    __asm__ volatile("cli");
     fpu_save(running_process->fpu_state); // save FPU state of current process
 
     running_process = process;   
@@ -29,6 +30,7 @@ void switch_context(process_t* process) {
 // puts process 0 as the current process and halts the cpu
 // there is no real context switch because we stay in the kernel
 void proc0_idle() {
+    __asm__ volatile("cli");
     fpu_save(running_process->fpu_state); // everything else is already preserved
     
     running_process = &proc0;
