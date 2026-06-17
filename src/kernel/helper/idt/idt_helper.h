@@ -42,7 +42,8 @@ extern void isr7(void);   // #NM Device Not Available
 
 //Exceptions with error Code
 
-extern void isr8(void);   // #DF Double Fault
+extern void isr8(void);    // #DF Double Fault (generic)
+extern void isr8_df(void); // #DF Double Fault (IST1, dedicated handler)
 extern void isr10(void);  // #TS Invalid TSS
 extern void isr11(void);  // #NP Segment Not Present
 extern void isr12(void);  // #SS Stack Fault

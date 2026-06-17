@@ -16,10 +16,10 @@ static inline void fpu_load(const uint8_t *fpu_state);
 // Saves the current process's state and jumps to the new process
 // May only be called if interrupts are disabled
 void switch_context(process_t* process) {
-    __asm__ volatile("cli");
+    __asm__ volatile("cli"); // must be atomic: running_process and tss.rsp0 updated together
     fpu_save(running_process->fpu_state); // save FPU state of current process
 
-    running_process = process;   
+    running_process = process;
     tss.rsp0 = (uint64_t)process->kernel_stack.top;
     fpu_load(process->fpu_state); // load FPU state of new process
     load_page_table(process->pml4);
@@ -32,7 +32,7 @@ void switch_context(process_t* process) {
 void proc0_idle() {
     __asm__ volatile("cli");
     fpu_save(running_process->fpu_state); // everything else is already preserved
-    
+
     running_process = &proc0;
     load_page_table(proc0.pml4);
     proc0.state = RUNNING;

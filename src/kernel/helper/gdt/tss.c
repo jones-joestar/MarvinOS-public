@@ -3,6 +3,9 @@
 struct tss_entry tss;
 extern char stack_top[]; // defined in kernel.asm
 
+#define IST1_SIZE 4096
+static uint8_t ist1_stack[IST1_SIZE] __attribute__((aligned(16)));
+
 void init_tss() {
     tss.reserved0 = 0;
     tss.reserved1 = 0;
@@ -10,11 +13,11 @@ void init_tss() {
     tss.reserved3 = 0;
 
     tss.rsp0 = (uint64_t)stack_top;
-    tss.rsp1 = 0; // not used
-    tss.rsp2 = 0; // not used
-    
-    tss.ist1 = 0; // interrupt stack tables. We don't need these because we don't make mistakes.
-    tss.ist2 = 0; 
+    tss.rsp1 = 0;
+    tss.rsp2 = 0;
+
+    tss.ist1 = (uint64_t)(ist1_stack + IST1_SIZE); // dedicated stack for double fault
+    tss.ist2 = 0;
     tss.ist3 = 0;
     tss.ist4 = 0;
     tss.ist5 = 0;

@@ -53,8 +53,10 @@ isr%1:
     cli
     PUSH_ALL
     sub rsp, 8
-    mov rdi, %1     ; vector
-    mov rsi, 0      ; kein error code
+    mov rdi, %1              ; vector
+    xor rsi, rsi             ; no error code
+    mov rdx, [rsp + 128]     ; RIP from interrupt frame
+    mov rcx, [rsp + 152]     ; RSP from interrupt frame
     call isr_handler
     add rsp, 8
     POP_ALL
@@ -68,12 +70,14 @@ isr%1:
     cli
     PUSH_ALL
     sub rsp, 8
-    mov rdi, %1     ; vector
-    mov rsi, [rsp + 8 + 15*8]   ; error code is above the stored registers
+    mov rdi, %1              ; vector
+    mov rsi, [rsp + 128]     ; error code
+    mov rdx, [rsp + 136]     ; RIP from interrupt frame
+    mov rcx, [rsp + 160]     ; RSP from interrupt frame
     call isr_handler
     add rsp, 8
     POP_ALL
-    add rsp, 8      ; clear error code from stack
+    add rsp, 8               ; clear error code from stack
     iretq
 %endmacro
 
@@ -83,6 +87,8 @@ isr_default:
     cli
     PUSH_ALL
     sub rsp, 8
+    mov rdi, [rsp + 128]     ; RIP from interrupt frame
+    mov rsi, [rsp + 152]     ; RSP from interrupt frame
     call isr_default_handler
     add rsp, 8
     POP_ALL
@@ -137,6 +143,20 @@ irq5_stub:
     
     iretq
 
+
+; dedicated double fault stub — runs on IST1, no register saves needed
+; stack on entry (CPU switched to IST1): [rsp+0]=errcode [rsp+8]=RIP [rsp+16]=CS [rsp+24]=RFLAGS [rsp+32]=RSP [rsp+40]=SS
+global isr8_df
+extern double_fault_handler
+isr8_df:
+    mov rdi, [rsp + 0]    ; errcode
+    mov rsi, [rsp + 8]    ; RIP of faulting instruction
+    mov rdx, [rsp + 32]   ; RSP at fault
+    sub rsp, 8            ; align before call
+    call double_fault_handler
+.halt:
+    hlt
+    jmp .halt
 
 ; exceptions with error code
 ISR_ERR 8
